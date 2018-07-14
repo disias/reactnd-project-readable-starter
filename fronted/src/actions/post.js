@@ -68,7 +68,7 @@ export function fetchPosts(category) {
     return apiRequest.then(
       response => {
         const result = normalizedResponse(response, arrayOfPosts);
-        dispatch(successPosts(normalizedResponse, category));
+        dispatch(successPosts(result, category));
         normalizedResponse.result.map(postId =>
           dispatch(fetchComments(postId))
         );
