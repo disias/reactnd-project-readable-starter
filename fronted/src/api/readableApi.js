@@ -1,6 +1,3 @@
-import { normalize } from "normalizr";
-import { categoryListSchema } from "./schema";
-
 const api = "http://localhost:3001";
 
 // Generate a unique token for storing your bookshelf data on the backend server.
@@ -19,13 +16,14 @@ const headers = {
 export const getCategories = () =>
   fetch(`${api}/categories`, { headers })
     .then(res => res.json())
-    .then(data => normalize(data.categories, categoryListSchema).result);
+    .then(data => data);
 
 //Posts
-export const getPostsByCategory = category =>
-  fetch(`${api}/${category}/posts`, { headers })
+export const getPostsByCategory = category => {
+  return fetch(`${api}/${category}/posts`, { headers })
     .then(res => res.json())
     .then(data => data);
+};
 
 export const getPosts = () =>
   fetch(`${api}/posts`, { headers })
@@ -44,7 +42,7 @@ export const addNewPost = post =>
       ...headers,
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ post })
+    body: JSON.stringify(post)
   })
     .then(res => res.json())
     .then(data => data);
@@ -68,7 +66,7 @@ export const updatePost = (postId, option) =>
       ...headers,
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ option })
+    body: JSON.stringify(option)
   })
     .then(res => res.json())
     .then(data => data);
@@ -99,7 +97,7 @@ export const addNewComment = comment =>
       ...headers,
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ comment })
+    body: JSON.stringify(comment)
   })
     .then(res => res.json())
     .then(data => data);
@@ -123,7 +121,7 @@ export const updateComment = (commentId, option) =>
       ...headers,
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ option })
+    body: JSON.stringify(option)
   })
     .then(res => res.json())
     .then(data => data);
