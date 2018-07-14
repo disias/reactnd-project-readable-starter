@@ -9,6 +9,13 @@ function requestPosts(category) {
   };
 }
 
+function requestPostById(postId) {
+  return {
+    type: actionTypes.FETCH_POST_REQUEST_BY_ID,
+    postId
+  };
+}
+
 function successPosts(json, category) {
   return {
     type: actionTypes.FETCH_POST_SUCCESS,
@@ -69,9 +76,7 @@ export function fetchPosts(category) {
       response => {
         const result = normalizedResponse(response, arrayOfPosts);
         dispatch(successPosts(result, category));
-        normalizedResponse.result.map(postId =>
-          dispatch(fetchComments(postId))
-        );
+        result.result.map(postId => dispatch(fetchComments(postId)));
       },
       error => dispatch(failurePosts(error))
     );
@@ -80,12 +85,18 @@ export function fetchPosts(category) {
 
 export function fetchPostById(postId) {
   return (dispatch, getState, readableApi) => {
+    dispatch(requestPostById(postId));
     return readableApi.getPostById(postId).then(
       response => {
-        const { category } = response;
-        const result = normalizedResponse(response, postSchema);
-        dispatch(successNewPost(result, category));
-        dispatch(fetchComments(postId));
+        const { category, commentCount, error } = response;
+        if (error) {
+          return dispatch(failurePosts("Post not Available"));
+        }
+        const json = normalizedResponse(response, postSchema);
+        dispatch(successNewPost(json, category));
+        if (commentCount > 0) {
+          dispatch(fetchComments(postId));
+        }
       },
       error => dispatch(failurePosts(error))
     );
