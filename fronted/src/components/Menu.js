@@ -9,7 +9,7 @@ const Menu = ({
   title,
   option,
   match: {
-    params: { category }
+    params: { category = "all" }
   }
 }) => (
   <tr>
@@ -69,14 +69,9 @@ const Menu = ({
   </tr>
 );
 
-Menu.defaultProps = {
-  category: "all"
-};
-
 Menu.propTypes = {
   title: PropTypes.string.isRequired,
-  option: PropTypes.bool.isRequired,
-  category: PropTypes.string.isRequired
+  option: PropTypes.bool.isRequired
 };
 
 export default Menu;

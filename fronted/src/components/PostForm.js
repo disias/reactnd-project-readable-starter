@@ -40,11 +40,11 @@ class PostForm extends React.Component {
   handleSubmit(event) {
     const { form } = this.state;
     event.preventDefault();
-    this.props.onSubmmit(form);
+    this.props.onSubmit(form);
   }
 
   render() {
-    const { categories } = this.props;
+    const { categories, metaData } = this.props;
     const { form, edit } = this.state;
 
     return (
@@ -134,7 +134,7 @@ class PostForm extends React.Component {
                 <tr style={{ height: "20px" }} />
                 <tr>
                   <td />
-                  <td>Please, fill in all the inputs for create a new Post.</td>
+                  <td>{metaData}</td>
                 </tr>
               </tbody>
             </table>
@@ -148,7 +148,8 @@ class PostForm extends React.Component {
 PostForm.propTypes = {
   post: PropTypes.object,
   categories: PropTypes.arrayOf(PropTypes.string),
-  onSubmmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
+  metaData: PropTypes.string.isRequired
 };
 
 export default PostForm;

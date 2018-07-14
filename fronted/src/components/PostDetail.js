@@ -13,7 +13,7 @@ class PostDetail extends React.Component {
         author: "",
         body: ""
       },
-      edit: true
+      edit: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -31,14 +31,14 @@ class PostDetail extends React.Component {
   handleSubmit(event) {
     const { form } = this.state;
     event.preventDefault();
-    this.props.onSubmmit(form);
+    this.props.onSubmit(form);
     this.clearForm();
   }
 
   handleForm(comment) {
     this.setState({
       form: { id: comment.id, author: comment.author, body: comment.body },
-      edit: false
+      edit: true
     });
   }
 
@@ -49,7 +49,7 @@ class PostDetail extends React.Component {
         author: "",
         body: ""
       },
-      edit: true
+      edit: false
     });
   }
 
@@ -72,7 +72,7 @@ class PostDetail extends React.Component {
             <tbody>
               <tr>
                 <td>
-                  <Post.Title
+                  <Post
                     post={post}
                     onPostDelete={onDeletePost}
                     onPostVote={onVotePost}

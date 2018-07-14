@@ -11,7 +11,10 @@ const Post = ({ post, onPostDelete, onPostVote, metaData }) => (
         <td align="right" valign="top" className="title" />
         <Vote onVote={onPostVote} id={post.id} score={post.voteScore} />
         <td className="title">
-          <NavLink to={`/${post.id}/detail`} activeClassName="storylink">
+          <NavLink
+            to={`/${post.category}/${post.id}`}
+            activeClassName="storylink"
+          >
             {post.title}
           </NavLink>
           <span className="sitebit comhead"> ({post.category})</span>
@@ -35,7 +38,7 @@ const Post = ({ post, onPostDelete, onPostVote, metaData }) => (
             Delete
           </a>{" "}
           |{" "}
-          <NavLink to={`/${post.id}/edit`}>
+          <NavLink to={`/${post.category}/${post.id}`}>
             {post.commentCount}&nbsp;comments
           </NavLink>
         </td>
@@ -59,12 +62,13 @@ Post.defaultProps = {
 
 Post.propTypes = {
   post: PropTypes.shape({
-    id: PropTypes.number,
+    id: PropTypes.string,
     timestamp: PropTypes.number,
     title: PropTypes.string,
     body: PropTypes.string,
     author: PropTypes.string,
-    category: PropTypes.string
+    category: PropTypes.string,
+    voteScore: PropTypes.number
   }).isRequired,
   onPostDelete: PropTypes.func.isRequired,
   onPostVote: PropTypes.func.isRequired,
