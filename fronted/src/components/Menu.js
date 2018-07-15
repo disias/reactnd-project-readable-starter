@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../logo.png";
+import logo from "../assets/logo.png";
 import PropTypes from "prop-types";
 import CategoryListContainer from "../containers/CategoryListContainer";
 import { NavLink } from "react-router-dom";

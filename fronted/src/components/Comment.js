@@ -15,7 +15,7 @@ const Comment = ({
         <tbody>
           <tr>
             <td className="ind">
-              <img src="s.gif" height="1" width="0" alt="" />
+              <img src="../assets/s.gif" height="1" width="0" alt="" />
             </td>
 
             <Vote

@@ -1,179 +1,87 @@
 import React, { Component } from "react";
-import redux_logo from "./redux.svg";
-import react_logo from "./react.svg";
-import udacity_logo from "./udacity.svg";
-import logo from "./logo.png";
-import { getCategories } from "./api/readableApi";
-import "semantic-ui-css/semantic.min.css";
-import { Menu, Feed, Icon, Label } from "semantic-ui-react";
+import "./App.css";
+import { createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import * as readableApi from "./api/readableApi";
+import thunk from "redux-thunk";
+import { createLogger } from "redux-logger";
+import rootReducer from "./reducers";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import MainLayout from "./components/MainLayout";
+import PostListContainer from "./containers/PostListContainer";
+import NewPostContainer from "./containers/NewPostContainer";
+import EditPostContainer from "./containers/EditPostContainer";
+import PostDetailContainer from "./containers/PostDetailContainer";
+
+const store = createStore(
+  rootReducer,
+  applyMiddleware(thunk.withExtraArgument(readableApi), createLogger())
+);
+
+const NoMatch = ({ location }) => (
+  <div style={{ textAlign: "center" }}>
+    <h3>
+      404 No found <code>{location.pathname}</code>
+    </h3>
+    <h4>
+      <Link to={"/"}>Back Home</Link>
+    </h4>
+  </div>
+);
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      categories: ["all"]
-    };
-  }
-
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
-
-  componentDidMount() {
-    getCategories().then(categories => {
-      this.setState(prevState => ({
-        categories: prevState.categories.concat(categories)
-      }));
-    });
-  }
-
   render() {
     return (
-      <div>
-        <Menu stackable>
-          <Menu.Item>
-            <img src={logo} alt="logo" />
-          </Menu.Item>
+      <Provider store={store}>
+        <Router>
+          <Switch>
+            <MainLayout
+              exact
+              path="/"
+              title={"Readable"}
+              option
+              component={PostListContainer}
+            />
+            <MainLayout
+              exact
+              path="/post/new"
+              title={"New Post"}
+              component={NewPostContainer}
+            />
 
-          {this.state.categories.length > 0 &&
-            this.state.categories.map((category, index) => (
-              <Menu.Item
-                key={index}
-                name={category}
-                active={category === this.state.activeItem}
-                onClick={this.handleItemClick}
-              >
-                {category}
-              </Menu.Item>
-            ))}
-        </Menu>
+            <MainLayout
+              exact
+              path="/:post/edit"
+              title={"Edit Post"}
+              component={EditPostContainer}
+            />
 
-        <Feed size="large">
-          <Feed.Event>
-            <Feed.Label image={udacity_logo} />
-            <Feed.Content>
-              <Feed.Summary>
-                <a>Joe Henderson</a> posted on his page
-                <Feed.Date>3 days ago</Feed.Date>
-              </Feed.Summary>
-              <Feed.Extra text>
-                Ours is a life of constant reruns. We're always circling back to
-                where we'd we started, then starting all over again. Even if we
-                don't run extra laps that day, we surely will come back for more
-                of the same another day soon.
-              </Feed.Extra>
-              <Feed.Meta>
-                <Label>
-                  <Icon name="comment" />
-                  5 Comments
-                </Label>
-                <a>
-                  <Icon name="edit outline" />
-                  Edit
-                </a>
-                <a>
-                  <Icon name="delete" />
-                  Delete
-                </a>
-                <Label as="a">
-                  <a>
-                    <Icon name="plus" />
-                  </a>
-                </Label>
-                <Icon name="like" />
-                5 Likes
-                <Label as="a">
-                  <a>
-                    <Icon name="minus" />
-                  </a>
-                </Label>
-              </Feed.Meta>
-            </Feed.Content>
-          </Feed.Event>
+            <MainLayout
+              exact
+              path="/:category/:post"
+              title={"Readable"}
+              component={PostDetailContainer}
+            />
 
-          <Feed.Event>
-            <Feed.Label image={react_logo} />
-            <Feed.Content>
-              <Feed.Summary>
-                <a>Joe Henderson</a> posted on his page
-                <Feed.Date>3 days ago</Feed.Date>
-              </Feed.Summary>
-              <Feed.Extra text>
-                Ours is a life of constant reruns. We're always circling back to
-                where we'd we started, then starting all over again. Even if we
-                don't run extra laps that day, we surely will come back for more
-                of the same another day soon.
-              </Feed.Extra>
-              <Feed.Meta>
-                <Label>
-                  <Icon name="comment" />
-                  5 Comments
-                </Label>
-                <a>
-                  <Icon name="edit outline" />
-                  Edit
-                </a>
-                <a>
-                  <Icon name="delete" />
-                  Delete
-                </a>
-                <Label as="a">
-                  <a>
-                    <Icon name="plus" />
-                  </a>
-                </Label>
-                <Icon name="like" />
-                5 Likes
-                <Label as="a">
-                  <a>
-                    <Icon name="minus" />
-                  </a>
-                </Label>
-              </Feed.Meta>
-            </Feed.Content>
-          </Feed.Event>
+            <MainLayout
+              exact
+              path="/:category"
+              title={"Readable"}
+              option
+              component={PostListContainer}
+            />
 
-          <Feed.Event>
-            <Feed.Label image={redux_logo} />
-            <Feed.Content>
-              <Feed.Summary>
-                <a>Joe Henderson posted on his page</a>
-                <Feed.Date>3 days ago</Feed.Date>
-              </Feed.Summary>
-              <Feed.Extra text>
-                Ours is a life of constant reruns. We're always circling back to
-                where we'd we started, then starting all over again. Even if we
-                don't run extra laps that day, we surely will come back for more
-                of the same another day soon.
-              </Feed.Extra>
-              <Feed.Meta>
-                <Label>
-                  <Icon name="comment" />
-                  5 Comments
-                </Label>
-                <a>
-                  <Icon name="edit outline" />
-                  Edit
-                </a>
-                <a>
-                  <Icon name="delete" />
-                  Delete
-                </a>
-                <Label as="a">
-                  <a>
-                    <Icon name="plus" />
-                  </a>
-                </Label>
-                <Icon name="like" />
-                5 Likes
-                <Label as="a">
-                  <a>
-                    <Icon name="minus" />
-                  </a>
-                </Label>
-              </Feed.Meta>
-            </Feed.Content>
-          </Feed.Event>
-        </Feed>
-      </div>
+            <MainLayout
+              exact
+              path="/:category/order/:order(vote|date)"
+              title={"Readable"}
+              option={true}
+              component={PostListContainer}
+            />
+            <Route component={NoMatch} />
+          </Switch>
+        </Router>
+      </Provider>
     );
   }
 }

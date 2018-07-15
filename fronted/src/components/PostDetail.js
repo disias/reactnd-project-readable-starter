@@ -1,5 +1,5 @@
 import React from "react";
-import "../s.gif";
+import "../assets/s.gif";
 import Post from "./Post";
 import CommentList from "./CommentList";
 import PropTypes from "prop-types";
