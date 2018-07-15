@@ -1,4 +1,4 @@
-# Readable API Server
+# Readable Project
 
 This is the starter project of Udacity's Redux. Users will be able to post content to predefined categories, comment on their posts and other users' posts, and vote on posts and comments. Users will also be able to edit and delete posts and comments.
 
@@ -37,9 +37,9 @@ To begin the React server and run the application:
 
 This is what the app should look like, once you open it in your browser.
 
-![posts](https://github.com/disias/reactnd-project-readable-starter/screenshot/posts.png)
+![posts](https://github.com/disias/reactnd-project-readable-starter/blob/master/fronted/screenshot/posts.png)
 
-![detail](https://github.com/disias/reactnd-project-readable-starter/screenshot/detail.png)
+![detail](https://github.com/disias/reactnd-project-readable-starter/blob/master/fronted/screenshot/detail.png)
 
 ### Resources and Documentation:
 
