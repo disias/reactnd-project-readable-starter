@@ -89,7 +89,7 @@ export function fetchPostById(postId) {
     return readableApi.getPostById(postId).then(
       response => {
         const { category, commentCount, error } = response;
-        if (error) {
+        if (error || response) {
           return dispatch(failurePosts("Post not Available"));
         }
         const json = normalizedResponse(response, postSchema);
